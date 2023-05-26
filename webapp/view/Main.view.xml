@@ -13,7 +13,7 @@
         <f:title>
             <f:DynamicPageTitle>
                 <f:heading>
-                    <Title text="VizFrame" />
+                    <Title text="EReON 지점별 차량 구매 오더 이력 차트" />
                 </f:heading>
             </f:DynamicPageTitle>
         </f:title>
@@ -22,78 +22,52 @@
                 <fb:FilterBar id="idFilterBar" header="Search Filters" useToolbar="false"
                     search="onSearch" filterContainerWidth="10rem">
                     <fb:filterGroupItems>
-                        <fb:FilterGroupItem groupName="__$INTERNAL$" name="OrderID" label="Order ID"
+                        <fb:FilterGroupItem groupName="__$INTERNAL$" name="branch" label="지점ID"
                             visibleInFilterBar="true">
                             <fb:control>
                                 <ComboBox
                                     id="idComboBox"
-                                    showSecondaryValues="true"
                                     items="{
-                                        path: '/Orders',
+                                        path: 'branchList>/list',
                                         templateShareable: true
-                                    }">
-                                    <core:ListItem
-                                        key="{OrderID}"
-                                        text="{OrderID}"
-                                        additionalText="{CustomerID}" />
-                                </ComboBox>
-                            </fb:control>
-                        </fb:FilterGroupItem>
-                        <fb:FilterGroupItem groupName="__$INTERNAL$" name="Type" label="Type"
-                            visibleInFilterBar="true">
-                            <fb:control>
-                                <ComboBox
-                                    id="idComboBox2"
-                                    showSecondaryValues="true"
-                                    required="true"
-                                    selectedKey="bar"
-                                     items="{
-                                        path: 'typeList>/list',
-                                        templateShareable: true
-                                    }"    
+                                    }"
+                                    showSecondaryValues="true" 
                                     >       
                                     <core:ListItem
-                                        key="{typeList>type}"
-                                        text="{typeList>type}"
+                                        key="{branchList>branch}"
+                                        text="{branchList>branch}"
+                                        additionalText="{branchList>branchname}"
                                         />
                                 </ComboBox>
                             </fb:control>
                         </fb:FilterGroupItem>
-
                     </fb:filterGroupItems>
                 </fb:FilterBar>
             </f:DynamicPageHeader>
         </f:header>
         <f:content>
-
             <viz:VizFrame 
                 id="idVizFrame" 
                 uiConfig="{applicationSet:'fiori'}"
                 height='100%' 
                 width="100%" 
                 vizType='bar'
-                selectData="onChartSelectData"
-                >
+                selectData="onChartSelectData">
                 <viz:dataset>
-                    <viz.data:FlattenedDataset id="idFlattendDataset" data="{/Order_Details}">
+                    <viz.data:FlattenedDataset id="idFlattendDataset" data="{/ZSER_CARPO_CTYIDSet}">
                         <viz.data:dimensions>
-                            <viz.data:DimensionDefinition name="OrderID"
-                                value="{OrderID}" />
-                            <viz.data:DimensionDefinition name="ProductID"
-                                value="{ProductID}" />
+                            <viz.data:DimensionDefinition name="Branch" value="{Branch}" />
+                            <viz.data:DimensionDefinition name="Ctyid" value="{Ctyid}" />
                         </viz.data:dimensions>
                         <viz.data:measures>
-                            <viz.data:MeasureDefinition name="UnitPrice"
-                                value="{UnitPrice}" />
+                            <viz.data:MeasureDefinition name="UnitPrice" value="{Price}" />
                         </viz.data:measures>
                     </viz.data:FlattenedDataset>
                 </viz:dataset>
 
                 <viz:feeds>
-                    <viz.feeds:FeedItem uid="valueAxis" type="Measure"
-                        values="UnitPrice" />
-                    <viz.feeds:FeedItem uid="categoryAxis" type="Dimension"
-                        values="OrderID,ProductID" />
+                    <viz.feeds:FeedItem uid="categoryAxis" type="Dimension" values="Branch,Ctyid" />                
+                    <viz.feeds:FeedItem uid="valueAxis" type="Measure" values="Price" />
                 </viz:feeds>
             </viz:VizFrame>
         </f:content>

@@ -11,18 +11,21 @@ sap.ui.define([
 
         return Controller.extend("ER.zfercarpo.controller.Main", {
             onInit: function () {
-                this.byId("idComboBox2").setValue("bar");
+                this.byId("idComboBox");
                 let datas = {
                     list:
                         [
-                            { type: 'bar' },
-                            { type: 'column' },
-                            { type: 'line' },
-                            { type: 'donut' }
+                            { branch: 'SE01', branchname:'강북'},
+                            { branch: 'SE02', branchname:'강남'},
+                            { branch: 'IN01', branchname:'인천'},
+                            { branch: 'GY01', branchname:'경기'},
+                            { branch: 'DG01', branchname:'대구'},
+                            { branch: 'DJ01', branchname:'대전'},
+                            { branch: 'BU01', branchname:'부산'}
                         ]
                 };
 
-                this.getView().setModel(new JSONModel(datas), 'typeList');
+                this.getView().setModel(new JSONModel(datas), 'branchList');
             },
 
             onSearch: function (oEvent) {
@@ -35,22 +38,7 @@ sap.ui.define([
    
                 let oFlattendDataset = this.byId("idFlattendDataset");
 
-                // var sSelectedKey = this.byId("idComboBox").getSelectedKey();   // OrderID
-                // var sSelectedType = this.byId('idComboBox2').getSelectedKey(); // type
                 var oVizFrame = oEvent.getParameter("selectionSet");
-
-                
-                // oModel.read(sBindPath, {
-                //     success : function(oReturn){
-
-                        
-                //         // typeList.setProperty("/OrderDetail", 받아온 데이터);
-                //         // oReturn 안에 조회데이터가 JSON 형태로 들어오게 됨.
-                //         // 해당 데이터를 가지고 데이터 가공을 할 수 있음.
-
-                //         // 여기에서 데이터를 받아와서 데이터 핸들링!
-                //     }
-                // });
 
                 let oFilter = new Filter({
                     filters: [
@@ -58,15 +46,7 @@ sap.ui.define([
                     ]
                 });
 
-                // function _onChangeBox (oFlattendDataset,sSelectedKey, sSelectedType, oFilter){
-                //     // 내용ㅇ
-                // };
-
                 var result = this._onChangeBox(oFlattendDataset,sSelectedKey, sSelectedType, oFilter);
-                // if (sSelectedKey) {
-                //     oFlattendDataset.getBinding("data").filter(oFilter);
-                // };
-
                 this.byId("idVizFrame").setVizType(sSelectedType);
 
             },
@@ -87,11 +67,6 @@ sap.ui.define([
                 };
                 
                 return test;
-                // this.byId("idComboBox2").setValueState("None");
-
-                // if (sSelectedKey) oFilter = new Filter("OrderID", "EQ", sSelectedKey);
-                
-                // { key : value }
             },
 
             onChartSelectData: function (oEvent) {
@@ -107,7 +82,6 @@ sap.ui.define([
                     OrderID: oData.OrderID,
                     ProductID: oData.ProductID,
                 });
-
             }
         });
     });

@@ -33,6 +33,9 @@ server:
           - path: /sap
             url: http://edu.bgis.co.kr:8001/sap/bc/ping
             client: '100'
+          - path: /sap
+            url: http://edu.bgis.co.kr:8001/sap/bc/ping
+            client: '100'
     - name: sap-fe-mockserver
       beforeMiddleware: csp
       configuration:
